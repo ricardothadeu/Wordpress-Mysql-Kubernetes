@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: mysql
+  namespace: labwordpress
+  labels:
+    app: wordpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      containers:
+      - image: mysql:8.0.31
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-wp-secrets
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-wp-cm
+              key: mysql_database
+        ports:
+        - containerPort: 3308
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage-lab
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage-lab
+        persistentVolumeClaim:
+          claimName: mysql-pvc
