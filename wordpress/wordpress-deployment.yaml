@@ -32,9 +32,9 @@ spec:
               key: WORDPRESS_DB_PASSWORD
         - name: WORDPRESS_DB_NAME
           valueFrom:
-            configMapKeyRef:
-              name: mysql-wp-cm
-              key: mysql_database
+            secretKeyRef:
+              name: mysql-wp-secrets
+              key: WORDPRESS_DB_NAME
         ports:
         - containerPort: 80
           name: wordpress

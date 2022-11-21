@@ -26,8 +26,8 @@ spec:
               key: MYSQL_ROOT_PASSWORD
         - name: MYSQL_DATABASE
           valueFrom:
-            configMapKeyRef:
-              name: mysql-wp-cm
+            secretKeyRef:
+              name: mysql-wp-secrets
               key: mysql_database
         ports:
         - containerPort: 3308

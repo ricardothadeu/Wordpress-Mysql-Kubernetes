@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mysql-wp-cm
-  namespace: labwordpress
-data:
-  mysql_database: "wordpress-db"
-  
