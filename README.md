@@ -40,34 +40,9 @@ Exemplo de como codificar os dados:
 Criado o arquivo YAML, basta aplicá-lo  
 `kubectl apply -f secret.yaml`  
 
-### 3. Criação do ConfigMap 
+### 3. Criação do Service  
 
-Para o armazenamento de informações não confidenciais, no qual os dados são armazenados em pares de chave-valor, pode-se fazer uso do ConfigMap, um objeto de API.
-Para mais informações sobre o ConfigMap, consultar a [documentação oficial do Kubernetes](https://kubernetes.io/docs/concepts/configuration/configmap/) [(também disponível em português)](https://kubernetes.io/pt-br/docs/concepts/configuration/configmap/)  
-
-A criação do ConfigMap pode ser feita através de um arquivo yaml com a seguinte estrutura:
-
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  ...
-data:
-  ...
-```
-
-Criado o arquivo YAML, basta fazer o apply  
-`kubectl apply -f configmap.yaml`
-
-Também pode ser feita pela linha de comando  
-`kubectl create configmap nome-do-configmap`  
- 
-
-### 4. Criação do Service
-
-Para o deploy de um site Wordpress com Database Mysql, são criados dois diretórios com arquivos e parâmetros de configuração, sendo o service um deles.
-
-Para expor os pods como serviço de rede, utiliza-se o service, ele será criado em ambos os diretórios, seguindo a configuração de parâmetros específica de cada serviço. 
+Para expor os pods como serviço de rede, utiliza-se o service. Deve ser criado um service para o MySQL e outro para o Wordpress, seguindo a configuração de parâmetros específica de cada serviço. 
 Para mais informações sobre o Service, consultar a [documentação oficial do Kubernetes](https://kubernetes.io/docs/concepts/services-networking/service/).
 
 A criação do service pode ser feita através de um arquivo yaml, e o arquivo referente ao banco de dados Mysql poderia seguir o modelo abaixo:
@@ -93,7 +68,7 @@ Criado o arquivo YAML, basta fazer o apply
  
 O arquivo referente ao serviço Wordpress seguiria a mesma estrutura, apenas referenciando os parâmetros específicos deste.
 
-### 5. Criação do Persistent Volume Claim
+### 4. Criação do Persistent Volume Claim
 
 Para a persistência de dados, pode-se utilizar Persistent Volume Claim, que é uma solicitação de armazenamento realizada por um usuário. Os serviços MySQL e Wordpress precisam de um PersistentVolume para armazenar dados, e assim que um PersistentVolumeClaim é criado, um PersistentVolume é provisionado dinamicamente de acordo com a configuração do StorageClass.
 Para mais informações sobre o PersistentVolumeClaim, consultar a [documentação oficial do Kubernetes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims).
@@ -121,17 +96,17 @@ Criado o arquivo YAML, basta fazer o apply
 O arquivo referente ao serviço Wordpress seguiria a mesma estrutura, apenas referenciando os parâmetros específicos deste.
 
 
-### 6. Criação do Deployment
+### 5. Criação do Deployment
 
 O último arquivo dos diretórios será o deployment, um objeto de API, que irá assegurar o gerenciamento do conjunto de Pods que foram especificados. A criação do Deployment também pode ser feita através de um arquivo yaml.
 Para mais informações sobre o Deployment, consultar a [documentação oficial do Kubernetes](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/).
 
-Criado o arquivo YAML, basta fazer o apply  
-`kubectl apply -f mysql-deployment.yaml`
+Para fazer o apply do [deployment](https://github.com/ricardothadeu/Wordpress-Mysql-Kubernetes/blob/main/wordpress/wordpress-deployment.yaml) do mySQL:
+`kubectl apply -f mysql-deployment.yaml`  
+Para fazer o apply do [deployment](https://github.com/ricardothadeu/Wordpress-Mysql-Kubernetes/blob/main/mysql/mysql-deployment.yaml) do Wordpress:  
+`kubectl apply -f wordpress-deployment.yaml`    
  
-O arquivo referente ao serviço Wordpress seguiria a mesma estrutura, apenas referenciando os parâmetros específicos deste.
-
-### 7. Criação do Ingress
+### 6. Criação do Ingress
 
 O último arquivo de configuração será o Ingress, um objeto de API, que faz o gerenciamento do acesso externo aos serviços em um cluster.
 Para mais informações sobre o Ingress, consultar a [documentação oficial do Kubernetes](https://kubernetes.io/docs/concepts/services-networking/ingress/).
@@ -160,7 +135,15 @@ spec:
               number: 80
 ```
 Criado o arquivo YAML, basta fazer o apply  
-`kubectl apply -f ingress.yaml`
- 
+`kubectl apply -f ingress.yaml`  
+
+
+### 7. Verificando o namespace
+
+Para verificar os pods, serviços e deployments do namespace (o namespace desta atividade se chama 'labwordpress'), utilize o comando  
+`kubectl get all -n labwordpress`  
+
+Para verificar se os PVCs foram criados corretamente, utilize o comando  
+`kubectl get pvc -n labwordpress`
 
 
