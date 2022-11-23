@@ -2,6 +2,7 @@
 
 Documentação da Atividade de Kubernetes do Programa de Bolsas Compass - DevSecOps.  
 O objetivo desta atividade é realizar o deploy de um site Wordpress utilizando o banco de dados MySQL.  
+Esta atividade foi realizada utilizando o Minikube na versão 1.27.1, Kubernetes 1.25.2.  
 
 ### 1. Criação do Namespace
 
@@ -145,5 +146,10 @@ Para verificar os pods, serviços e deployments do namespace (o namespace desta 
 
 Para verificar se os PVCs foram criados corretamente, utilize o comando  
 `kubectl get pvc -n labwordpress`
+
+Para verificar o Ingress, utilize o comando  
+`kubectl get ingress -n labwordpress`  
+
+Para acessar a aplicação, cole no navegador o ADDRESS exibido pelo comando acima. Se desejar, adicione este endereço IP ao arquivo `/etc/hosts` para associá-lo a uma URL.  
 
 
